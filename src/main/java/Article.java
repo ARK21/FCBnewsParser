@@ -1,20 +1,32 @@
-import java.util.Calendar;
-
+/**
+ * Class contains article data from site
+ */
 public class Article {
 
+    // article url
     private String url;
+    // title
     private String title;
+    // article text
     private String text;
-    private String data;
+    // publication date
+    private String date;
 
-
-    public Article(String url, String title, String text, String data) {
+    /**
+     * Constructor
+     * @param url
+     * @param title
+     * @param text
+     * @param date
+     */
+    public Article(String url, String title, String text, String date) {
         this.url = url;
         this.title = title;
         this.text = text;
-        this.data = data;
+        this.date = date;
     }
 
+    // getters and setters
     public String getUrl() {
         return url;
     }
@@ -39,17 +51,17 @@ public class Article {
         this.text = text;
     }
 
-    public String getData() {
-        return data;
+    public String getDate() {
+        return date;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     @Override
     public String toString() {
-        return data + "\n" +
+        return date + "\n" +
                 title + "\n" +
                 text;
     }
