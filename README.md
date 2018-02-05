@@ -1,6 +1,6 @@
 # FCBnewsParser
 This application get news from site barca.ru. 
-<h2>Aplication view</h2>
+<h1>Aplication view</h1>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/18110699/35803108-2e4e1002-0aa5-11e8-9079-0c72513f6700.png">
@@ -26,4 +26,7 @@ After double click on article title you get full article text in modal window.
   <img src="https://user-images.githubusercontent.com/18110699/35803802-b760f646-0aa7-11e8-9ce1-e4c1d13ae2d9.png">
 </p>
 
-
+<h2>In the application for this moment, the following technologies and libraries were used:</h1>
+<li>JavaCore</li>
+<li>Maven</li>
+<li>Jsoup</li>
