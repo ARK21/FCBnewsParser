@@ -1,5 +1,5 @@
 # FCBnewsParser
-This application get news from site barca.ru. 
+This application get news from site barca.ru. The application is still being developed.
 <h1>Aplication view</h1>
 
 <p align="center">
