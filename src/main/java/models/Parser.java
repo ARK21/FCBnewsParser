@@ -39,7 +39,7 @@ public class Parser {
             // get elements contains article titles
             Elements textElements = element.getElementsByAttributeValue("class", "text_news_list");
             // take last 10 article
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 10; i++) {
                 // article's url
                 String articleUrl = getArticleUrl(textElements.get(i));
                 // publication date
@@ -94,8 +94,7 @@ public class Parser {
      */
     private String getDate(Element element) {
         String date = element.ownText();
-        String[] spl = date.split(" ");
-        return spl[0];
+        return date;
     }
 
     /**
