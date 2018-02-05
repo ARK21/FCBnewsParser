@@ -11,3 +11,7 @@ When you press on update button (top left corner), your will get 10 lateset news
 <h2>The same news in app</h2>
 
 ![appnews](https://user-images.githubusercontent.com/18110699/35803359-1fc989ac-0aa6-11e8-91d3-7b561b2d7bd0.png)
+If you point at article title in app,  you will get full title text in tooltip.
+
+![tooltip](https://user-images.githubusercontent.com/18110699/35803559-cb1c9eca-0aa6-11e8-8cf5-b1d688883fc7.png)
+
