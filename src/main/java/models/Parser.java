@@ -1,12 +1,13 @@
+package models;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Class get data from URL. Use JSOUP library.
@@ -25,9 +26,9 @@ public class Parser {
      * @return list of article
      * @throws IOException if can't connect to URl
      */
-    public Collection<Article> getData() throws IOException {
+    public ObservableList<Article> getData() throws IOException {
         // list contains articles
-        List<Article> articleList = new ArrayList<Article>();
+        ObservableList<Article> articleList = FXCollections.observableArrayList();
         // connect to site and get Elements by attributeValue
         Document document = Jsoup.connect(URL).get();
         Elements elements = document.getElementsByAttributeValue("class", "center_c news");
@@ -38,7 +39,7 @@ public class Parser {
             // get elements contains article titles
             Elements textElements = element.getElementsByAttributeValue("class", "text_news_list");
             // take last 10 article
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 20; i++) {
                 // article's url
                 String articleUrl = getArticleUrl(textElements.get(i));
                 // publication date
@@ -86,12 +87,15 @@ public class Parser {
     }
 
     /**
-     * Get date
+     * Get date. Element contains date in format "date time".
+     * Method split string to " " and get string from array with index 0.
      * @param element which contain date
      * @return date in string format
      */
     private String getDate(Element element) {
-        return element.ownText();
+        String date = element.ownText();
+        String[] spl = date.split(" ");
+        return spl[0];
     }
 
     /**

@@ -1,3 +1,6 @@
+import models.Article;
+import models.Parser;
+
 import java.io.IOException;
 import java.util.List;
 
