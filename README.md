@@ -29,4 +29,5 @@ After double click on article title you get full article text in modal window.
 <h2>In the application for this moment, the following technologies and libraries were used:</h1>
 <li>JavaCore</li>
 <li>Maven</li>
+<li>JavaFX</li>
 <li>Jsoup</li>
