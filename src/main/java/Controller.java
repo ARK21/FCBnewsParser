@@ -12,6 +12,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import models.Article;
 import models.Parser;
 
@@ -58,35 +59,7 @@ public class Controller {
      */
     @FXML
     public void update(ActionEvent actionEvent) {
-        // use lambda to start thread
-        new Thread(() -> {
-            try {
-                // Get data or catch exception get it
-                articles = parser.getData();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            // Set data from table column
-            title.setCellValueFactory(new PropertyValueFactory<Article, String>("title"));
-            newsTable.setItems(articles);
-            // Set tooltip for each cell. You can see full title if you point at title.
-            title.setCellFactory(param -> new TableCell<Article, String>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (item == null) {
-                        setTooltip(null);
-                        setText(null);
-                    } else {
-                        Tooltip tooltip = new Tooltip();
-                        Article article = getTableView().getItems().get(getTableRow().getIndex());
-                        tooltip.setText(article.getTitle());
-                        setTooltip(tooltip);
-                        setText(item);
-                    }
-                }
-            });
-        }).start();
+        UpdateThread updateThread = new UpdateThread();
     }
 
     /**
@@ -97,6 +70,7 @@ public class Controller {
     public void clickItem(MouseEvent event) {
         // if double click
         if (event.getClickCount() == 2) {
+
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Статья");
@@ -110,7 +84,7 @@ public class Controller {
             // Set label and font for date
             Label label = new Label("Дата публикации: " + date.getText());
             label.setFont(Font.font(null, FontWeight.BOLD, 12));
-            // Initialize scroll pane for article text. It's usefully for big article
+                        // Initialize scroll pane for article text. It's usefully for big article
             ScrollPane scrollPane = new ScrollPane();
             // Layout
             VBox layout = new VBox();
@@ -124,4 +98,61 @@ public class Controller {
             stage.show();
         }
     }
+
+
+    /**
+     * Class that get data fro article
+     */
+    private class UpdateThread extends Thread {
+
+        /**
+         * Constructor start thread when initialize
+         */
+        UpdateThread() {
+            start();
+        }
+
+        /**
+         * Override method which get data from site
+         */
+        @Override
+        public void run() {
+
+            try {
+                // Get data or catch exception get it
+                articles = parser.getData();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Set data from table column
+            title.setCellValueFactory(new PropertyValueFactory<Article, String>("title"));
+            newsTable.setItems(articles);
+            // Set tooltip for each cell. You can see full title if you point at title.
+            title.setCellFactory(new Callback<TableColumn<Article, String>, TableCell<Article, String>>() {
+                @Override
+                public TableCell<Article, String> call(TableColumn<Article, String> param) {
+                    return new TableCell<Article, String>() {
+                        @Override
+                        protected void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (item == null) {
+                                setTooltip(null);
+                                setText(null);
+                            } else {
+                                Tooltip tooltip = new Tooltip();
+                                Article article = getTableView().getItems().get(getTableRow().getIndex());
+                                tooltip.setText(article.getTitle());
+                                setTooltip(tooltip);
+                                setText(item);
+                            }
+
+                        }
+                    };
+                }
+            });
+
+        }
+    }
+
 }
