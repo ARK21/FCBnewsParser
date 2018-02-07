@@ -31,3 +31,4 @@ After double click on article title you get full article text in modal window.
 <li>Maven</li>
 <li>JavaFX</li>
 <li>Jsoup</li>
+<li>MySQL</li>
