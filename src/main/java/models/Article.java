@@ -65,8 +65,6 @@ public class Article {
 
     @Override
     public String toString() {
-        return date + "\n" +
-                title + "\n" +
-                text;
+        return title.get();
     }
 }

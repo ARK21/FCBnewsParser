@@ -22,7 +22,7 @@
       <TextField fx:id="search" layoutX="76.0" layoutY="14.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="5.0" />
       <TableView fx:id="newsTable" layoutX="51.0" layoutY="111.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#clickItem" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="50.0">
         <columns>
-          <TableColumn fx:id="title" editable="false" minWidth="300.0" prefWidth="300.0" resizable="false" text="Title" />
+          <TableColumn fx:id="title" editable="false" minWidth="300.0" prefWidth="300.0" resizable="false" sortable="false" text="Title" />
         </columns>
       </TableView>
 

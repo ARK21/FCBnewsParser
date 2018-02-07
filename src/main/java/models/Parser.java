@@ -38,8 +38,8 @@ public class Parser {
             Elements dateElements = element.getElementsByAttributeValue("class", "date_news_list_blue");
             // get elements contains article titles
             Elements textElements = element.getElementsByAttributeValue("class", "text_news_list");
-            // take last 10 article
-            for (int i = 0; i < 10; i++) {
+            // take all articles from page
+            for (int i = dateElements.size() -1; i >=0 ; i--) {
                 // article's url
                 String articleUrl = getArticleUrl(textElements.get(i));
                 // publication date

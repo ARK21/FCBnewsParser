@@ -1,3 +1,4 @@
+import db.SqlManager;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,7 +24,9 @@ import java.io.IOException;
 public class Controller {
 
     // parser instance for access for site
-    private Parser parser = new Parser();
+    private static Parser parser = new Parser();
+
+    private static SqlManager manager = new SqlManager();
     // container containing list of article
     private ObservableList<Article> articles;
 
@@ -58,14 +61,26 @@ public class Controller {
      */
     @FXML
     public void update(ActionEvent actionEvent) {
-        // use lambda to start thread
+        // upgrade database data
         new Thread(() -> {
             try {
-                // Get data or catch exception get it
-                articles = parser.getData();
+                System.out.println("Добавляю");
+                long timeBefore = System.currentTimeMillis();
+                if (manager.add(parser.getData())) {
+                    long timeAfter = System.currentTimeMillis();
+                    articles = manager.values();
+                    newsTable.setItems(articles);
+                    System.out.println("Добавил за: " + (timeAfter - timeBefore)/1000 + " секунд");
+                }   else System.out.println("Нечего добавить");
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }).start();
+        // use lambda to start thread
+        new Thread(() -> {
+            // Get data or catch exception get it
+            articles = manager.values();
             // Set data from table column
             title.setCellValueFactory(new PropertyValueFactory<Article, String>("title"));
             newsTable.setItems(articles);
