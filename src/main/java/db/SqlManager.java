@@ -58,49 +58,41 @@ public class SqlManager {
      * @param articles list of article
      */
     public boolean add(ObservableList<Article> articles) {
-        boolean isInsert = false;
-        ObservableList<Article> willBeAdd = FXCollections.observableArrayList();
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM data WHERE url=(?)")) {
-            // check is article already exist in database
-            for (int i = 0; i < articles.size(); i++) {
-                statement.setString(1, articles.get(i).getUrl());
-                ResultSet resultSet = statement.executeQuery();
-                // if don't exist
-                if (!(resultSet.isBeforeFirst())) {
-                    System.out.println("Один есть");
-                    willBeAdd.add(articles.get(i));
-                    if (i == articles.size() - 1) {
-                        insert(willBeAdd);
-                        isInsert = true;
-                    }
+        boolean isAdded = false;
+        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO data (date, title, text, status, url) VALUES (?,?,?,?,?)")) {
+            for (Article insertArticle : articles) {
+                statement.setString(1, insertArticle.getDate());
+                statement.setString(2, insertArticle.getTitle());
+                statement.setString(3, insertArticle.getText());
+                statement.setString(4, "new");
+                statement.setString(5, insertArticle.getUrl());
+                try {
+                    statement.executeUpdate();
+                } catch (SQLException e) {
+                    System.out.println("Не смог добавить: " + insertArticle.getTitle() + ", " + e.getMessage() );
+                    continue;
                 }
-                // if exists
-                else {
-                    if (willBeAdd.isEmpty()) {
-                    } else {
-                        insert(willBeAdd);
-                        isInsert = true;
-                    }
-                }
+                System.out.println("Добавил: " + insertArticle);
+                isAdded  = true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return isInsert;
+        return isAdded;
     }
 
-    private void insert(ObservableList<Article> articles) throws SQLException {
-        try (PreparedStatement addSt = connection.prepareStatement("INSERT INTO data (date, title, text, status, url) VALUES (?,?,?,?,?)")) {
-            for (Article insertArticle : articles) {
-                addSt.setString(1, insertArticle.getDate());
-                addSt.setString(2, insertArticle.getTitle());
-                addSt.setString(3, insertArticle.getText());
-                addSt.setString(4, "new");
-                addSt.setString(5, insertArticle.getUrl());
-                addSt.executeUpdate();
-                System.out.println("Добавил: " + insertArticle);
-            }
-        }
 
+
+    public String getLastUrl() {
+        String lastUrl = "not";
+        try (PreparedStatement statement = connection.prepareStatement("SELECT url from data WHERE id=(SELECT LAST_INSERT_ID(data.id))")) {
+            ResultSet set = statement.executeQuery();
+            while (set.next()) {
+                lastUrl = set.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lastUrl;
     }
 }

@@ -1,6 +1,5 @@
 import db.SqlManager;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -14,17 +13,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.Article;
-import models.Parser;
-
-import java.io.IOException;
 
 /**
  * Class controller fot GUI
  */
 public class Controller {
-
-    // parser instance for access for site
-    private static Parser parser = new Parser();
 
     private static SqlManager manager = new SqlManager();
     // container containing list of article
@@ -57,26 +50,10 @@ public class Controller {
 
     /**
      * Method start when you press updateBt. Thread which get data from site run
-     * @param actionEvent
      */
     @FXML
-    public void update(ActionEvent actionEvent) {
-        // upgrade database data
-        new Thread(() -> {
-            try {
-                System.out.println("Добавляю");
-                long timeBefore = System.currentTimeMillis();
-                if (manager.add(parser.getData())) {
-                    long timeAfter = System.currentTimeMillis();
-                    articles = manager.values();
-                    newsTable.setItems(articles);
-                    System.out.println("Добавил за: " + (timeAfter - timeBefore)/1000 + " секунд");
-                }   else System.out.println("Нечего добавить");
+    public void update() {
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
         // use lambda to start thread
         new Thread(() -> {
             // Get data or catch exception get it
@@ -106,6 +83,7 @@ public class Controller {
 
     /**
      * Method start when you 2 click on article's title. Open new stage with article's text
+     *
      * @param event MouseEvent
      */
     @FXML

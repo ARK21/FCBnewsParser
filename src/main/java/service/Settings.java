@@ -1,7 +1,7 @@
 package service;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -16,7 +16,7 @@ public class Settings {
     private Settings() {
         try {
             // get properties
-            FileInputStream input = new FileInputStream(this.getClass().getClassLoader().getResource("data.properties").getFile());
+            InputStream input = this.getClass().getClassLoader().getSystemResourceAsStream("data.properties");
             properties.load(input);
         } catch (IOException e) {
             e.printStackTrace();
